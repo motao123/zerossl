@@ -122,7 +122,7 @@ func main() {
 		"payment_frequency": "monthly",
 	}
 	encode, _ = json.Marshal(data)
-	resp, err = client.R().
+	_, err = client.R().
 		SetQueryParams(map[string]string{
 			"type": "change_subscription_plan",
 			"_cpt": cpt,
@@ -142,7 +142,7 @@ func main() {
 		"payment_frequency": "monthly",
 	}
 	encode, _ = json.Marshal(data)
-	resp, err = client.R().
+	_, err = client.R().
 		SetQueryParams(map[string]string{
 			"type": "change_subscription_plan",
 			"_cpt": cpt,
@@ -178,16 +178,14 @@ func main() {
 	token = match[1]
 
 	// 提交证书请求
-	data = map[string]string{
-		"certificate_domains":       domain,
-		"certificate_validity_days": "365",
-		"certificate_csr":           string(csr),
-		"strict_domains":            "1",
-	}
-	encode, _ = json.Marshal(data)
-	resp, err = client.R().
+	_, err = client.R().
 		SetQueryParam("access_key", token).
-		SetBodyJsonMarshal(data).
+		SetBodyJsonMarshal(map[string]string{
+			"certificate_domains":       domain,
+			"certificate_validity_days": "365",
+			"certificate_csr":           string(csr),
+			"strict_domains":            "1",
+		}).
 		Post("https://api.zerossl.com/certificates")
 	if err != nil {
 		fmt.Printf("提交证书请求时出错: %v\n", err)

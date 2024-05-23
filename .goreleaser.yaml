@@ -35,4 +35,4 @@ archives:
       - zerossl
     format: zip
     wrap_in_directory: false
-    strip_parent_binary_folder: true
+    strip_binary_directory: true
