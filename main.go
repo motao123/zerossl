@@ -93,7 +93,7 @@ func main() {
 		SetFormData(map[string]string{
 			"postArray": string(encode),
 		}).
-		Post("/ajax/public_ajax_handler.php?type=sign_in")
+		Post("/ajax/public_ajax_handler.php")
 
 	if err != nil {
 		fmt.Printf("登录时出错: %v\n", err)
@@ -133,26 +133,6 @@ func main() {
 		Post("/ajax/advanced_ajax_handler.php")
 	if err != nil {
 		fmt.Printf("订阅计划时出错: %v\n", err)
-		return
-	}
-
-	// 降级计划
-	data = map[string]string{
-		"plan_id":           "477",
-		"payment_frequency": "monthly",
-	}
-	encode, _ = json.Marshal(data)
-	_, err = client.R().
-		SetQueryParams(map[string]string{
-			"type": "change_subscription_plan",
-			"_cpt": cpt,
-		}).
-		SetFormData(map[string]string{
-			"postArray": string(encode),
-		}).
-		Post("/ajax/advanced_ajax_handler.php")
-	if err != nil {
-		fmt.Printf("降级计划时出错: %v\n", err)
 		return
 	}
 
