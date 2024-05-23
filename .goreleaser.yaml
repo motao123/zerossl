@@ -1,0 +1,38 @@
+project_name: zerossl
+
+builds:
+  - id: zerossl
+    binary: zerossl
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    goamd64:
+      - v2
+    ldflags:
+      - -s -w --extldflags "-static"
+
+upx:
+  - enabled: true
+    # Filter by build ID.
+    ids: [ zerossl ]
+    # Compress argument.
+    # Valid options are from '1' (faster) to '9' (better), and 'best'.
+    compress: best
+    # Whether to try LZMA (slower).
+    lzma: true
+    # Whether to try all methods and filters (slow).
+    brute: true
+
+archives:
+  - id: zerossl-archive
+    builds:
+      - zerossl
+    format: zip
+    wrap_in_directory: false
+    strip_parent_binary_folder: true
